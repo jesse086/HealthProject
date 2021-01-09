@@ -14,4 +14,20 @@
         values(#{checkGroupId},#{checkitemId})
     </insert>
 
+    <select id="findByCondition" parameterType="string" resultType="checkgroup">
+        select * From t_checkgroup
+        <where>
+            <if test="value !=null and value.length>0">
+                code like #{queryString} or name like #{queryString} or helpCode like #{queryString}
+            </if>
+        </where>
+    </select>
+
+    <select id="findById" parameterType="int" resultType="checkgroup">
+        select * from t_checkgroup where id=#{id}
+    </select>
+
+    <select id="findCheckItemIdsByCheckGroupId" resultType="int" parameterType="int">
+        select checkitem_id from t_checkgroup_checkitem where checkgroup_id=#{id}
+    </select>
 </mapper>
