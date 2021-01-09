@@ -2,6 +2,8 @@ package com.itheima.health.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.itheima.health.constant.MessageConstant;
+import com.itheima.health.entity.PageResult;
+import com.itheima.health.entity.QueryPageBean;
 import com.itheima.health.entity.Result;
 import com.itheima.health.pojo.CheckItem;
 import com.itheima.health.service.CheckItemService;
@@ -61,6 +63,18 @@ public class CheckItemController {
     }
 
     /**
+     * 检查项的分页查询
+     * @param queryPageBean
+     * @return
+     */
+    @PostMapping("/findPage")
+    public Result findPage(@RequestBody QueryPageBean queryPageBean){
+        //调用服务 分页查询
+        PageResult<CheckItem> pageResult = checkItemService.findPage(queryPageBean);
+        return new Result(true,MessageConstant.QUERY_CHECKITEM_SUCCESS,pageResult);
+    }
+
+    /**
      * 通过id查询
      * @param id
      * @return
@@ -69,5 +83,29 @@ public class CheckItemController {
     public Result findById(int id){
         CheckItem checkItem = checkItemService.findById(id);
         return new Result(true,MessageConstant.QUERY_CHECKITEM_SUCCESS,checkItem);
+    }
+
+    /**
+     * 更新检查项
+     * @param checkItem
+     * @return
+     */
+    @PostMapping("/update")
+    public Result update(@RequestBody CheckItem checkItem){
+        // 调用服务更新
+        checkItemService.update(checkItem);
+        // 返回操作的结果
+        return new Result(true, MessageConstant.EDIT_CHECKITEM_SUCCESS);
+    }
+
+    /**
+     * 通过id删除
+     * @param id
+     * @return
+     */
+    @PostMapping("/deleteById")
+    public Result deleteById(int id){
+        checkItemService.deleteById(id);
+        return new Result(true, MessageConstant.DELETE_CHECKITEM_SUCCESS);
     }
 }
