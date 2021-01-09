@@ -63,4 +63,39 @@ public class CheckGroupController {
         List<Integer> checkItemIds = checkGroupService.findCheckItemIdsByCheckGroupId(id);
         return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS,checkItemIds);
     }
+
+    /**
+     * 修改检查组
+     * @param checkGroup 检查组信息
+     * @param checkitemIds 选中的检查项id数组
+     * @return
+     */
+    @PostMapping("/update")
+    public Result update(@RequestBody CheckGroup checkGroup,Integer[] checkitemIds){
+        // 调用服务 修改检查组
+        checkGroupService.update(checkGroup, checkitemIds);
+        return new Result(true, MessageConstant.EDIT_CHECKGROUP_SUCCESS);
+    }
+
+    /**
+     * 通过id删除检查组
+     * @param id
+     * @return
+     */
+    @PostMapping("/deleteById")
+    public Result deleteById(int id){
+        // 调用服务删除
+        checkGroupService.deleteById(id);
+        return new Result(true, MessageConstant.DELETE_CHECKGROUP_SUCCESS);
+    }
+
+    /**
+     * 查询所有的检查组
+     * @return
+     */
+    @GetMapping("/findAll")
+    public Result findAll(){
+        List<CheckGroup> list = checkGroupService.findAll();
+        return new Result(true, MessageConstant.QUERY_CHECKGROUP_SUCCESS,list);
+    }
 }
